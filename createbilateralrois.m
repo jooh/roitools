@@ -13,6 +13,7 @@ if ieNotDefined('overwrite')
 end
 
 % parse into ROI struct
+rc = 0;
 for r = 1:length(roipaths);
     [parentdir,fn,ext] = fileparts(roipaths{r});
     % ignore ROIs that don't have laterality (ie no l or r)
@@ -21,9 +22,10 @@ for r = 1:length(roipaths);
         fprintf('skipping non-lateral ROI: %s\n',roipaths{r});
         continue
     end
+    rc = rc+1;
     % strip leading to make bilateral name
     name = fn(3:end);
-    roi(r) = struct('fullpath',roipaths{r},'name',name,...
+    roi(rc) = struct('fullpath',roipaths{r},'name',name,...
         'parentdir',parentdir,'extension',ext);
 end
 
