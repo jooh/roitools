@@ -19,7 +19,7 @@ mdata = spm_get_data(Vs,[x y z]');
 overlaps = pdist(mdata,@overlapdist);
 F = figure;
 set(F,'position',[0 0 800 600]);
-imagesc(squareform(overlaps),[0 max(overlaps(:))])
+imagesc(squareform(overlaps),[0 max([1; overlaps(:)])]);
 colorbar;
 nroi = size(roipaths,1);
 roinames = cell(nroi,1);
