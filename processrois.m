@@ -1,7 +1,11 @@
 % Master function for ROI preparation. 
 %
 % processrois(rootdir,cons,unsmpath)
-function processrois(rootdir,cons,unsmpath)
+function processrois(rootdir,cons,unsmpath,threshold)
+
+if ieNotDefined('threshold')
+    threshold = 0;
+end
 
 % append hdr to get to the masked volume. cd into directory to get ROIs
 % for masking
@@ -11,9 +15,9 @@ ncon = length(cons);
 % baseline (for voxel ranking)
 roipaths = {};
 for c = 1:ncon
-    conhits = dir(fullfile(rootdir,[cons{c} '*.hdr']));
+    conhits = dir(fullfile(rootdir,cons{c}));
     assert(length(conhits)==1,'need exactly one hit for %s',cons{c});
-    % assume roidir name is same as mask name 
+    % assume roidir name is same as mask name
     [junk,constr,ext] = fileparts(conhits(1).name);
     roidir = fullfile(rootdir,constr);
     rois = [dir(fullfile(roidir,'*.nii')); ...
@@ -24,13 +28,13 @@ for c = 1:ncon
     % make full paths
     rois = arrayfun(@(x)fullfile(rootdir,constr,rois(x).name),...
         1:nrois,'uniformoutput',false);
-    paths = thresholdrois(fullfile(rootdir,conhits(1).name),rois);
+    paths = thresholdrois(fullfile(rootdir,conhits(1).name),rois,[],threshold);
     roipaths = [roipaths; paths];
 end
 
 % analyse overlap
 fighand = visualiseroioverlap(roipaths);
-printstandard(fullfile(rootdir,'diagnostic_overlaps'),fighand);
+printstandard(fullfile(rootdir,'diagnostic_overlaps'),'F',fighand);
 close(fighand);
 
 % make bilateral versions of ROIs (with overwrite)
