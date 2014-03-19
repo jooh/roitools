@@ -18,6 +18,7 @@ function makecoordrois(subdir,masks,varargin)
 getArgs(varargin,{'normpath','','maskpath','','masksize',100,...
     'overwrite',1});
 
+mkdirifneeded(subdir);
 sl = Searchlight(maskpath,'nvox',masksize);
 
 nmask = length(masks);
