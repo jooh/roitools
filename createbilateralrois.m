@@ -29,7 +29,13 @@ for r = 1:length(roipaths);
         'parentdir',parentdir,'extension',ext);
 end
 
+
 newrois = {};
+if rc == 0
+    % no unilaterals to process.
+    return;
+end
+
 % Use pop approach to gradually whittle down struct array of unilateral roi
 while length(roi) > 0
     % pop first in list
