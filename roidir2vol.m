@@ -5,5 +5,5 @@ nroi = length(rois);
 names = stripext({rois.name}');
 cwd = pwd;
 cd(roidir);
-roivol = MriVolume({rois.name},[],'metasamples',struct('names',{names}));
+roivol = SPMVolume({rois.name},[],'metasamples',struct('names',{names}));
 cd(cwd);

@@ -48,14 +48,14 @@ names = cell(nroi,1);
 for r = 1:nroi
     [junk,names{r},junk] = fileparts(roipaths{r});
 end
-roivol = MriVolume(roipaths,[],'metasamples',struct('names',{names}));
+roivol = SPMVolume(roipaths,[],'metasamples',struct('names',{names}));
 save(fullfile(rootdir,'roivol.mat'),'roivol');
 
 if ~ieNotDefined('unsmpath')
     % re-write with intensity values from unsmoothed map
     roipaths_unsmooth = thresholdrois(unsmpath,roipaths,...
         'thresholded_unsmoothvbase');
-    roivol = MriVolume(roipaths_unsmooth,[],'metasamples',...
+    roivol = SPMVolume(roipaths_unsmooth,[],'metasamples',...
         struct('names',{names}));
     save(fullfile(rootdir,'roivol_unsm.mat'),'roivol');
 end
