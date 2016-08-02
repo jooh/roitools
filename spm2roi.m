@@ -12,9 +12,4 @@ function spm2roi(nvox,hReg,xSPM)
 % get current mm centroid
 peak = round(mm_to_vox(hReg,xSPM)');
 
-if numel(xSPM.Vspm)>1
-    fprintf('overlaying on first of %d volumes in contrast.\n',...
-        numel(xSPM.Vspm));
-end
-
-coords2roi(nvox,peak,xSPM.Vspm(1));
+coords2roi(nvox,peak,xSPM.Vspm);

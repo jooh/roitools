@@ -16,6 +16,10 @@ end
 % get contrast data
 dims = vol.dim;
 xyz = spm_read_vols(vol);
+if size(xyz,4)>1
+    logstr('assuming you want a minimum stat conjunction analysis\n');
+    xyz = min(xyz,[],4);
+end
 
 % bring up the statistical map in gray
 F = figure(991204);
@@ -80,7 +84,7 @@ if ~done
 end
 
 % write out mask (to current directory)
-newV = vol;
+newV = vol(1);
 newV.fname = [roiname '.nii'];
 spm_write_vol(newV,roimask);
 fprintf('saved roi %s\n',newV.fname);
